@@ -1,0 +1,52 @@
+version: '3.1'
+
+services:
+
+  wordpress:
+    image: wordpress
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: user
+      WORDPRESS_DB_PASSWORD: pass
+      WORDPRESS_DB_NAME: wp_db
+    volumes:
+      - ./wp:/var/www/html
+#    networks:
+#      - netwp
+
+  db:
+    image: mariadb
+    restart: always
+    environment:
+      MYSQL_DATABASE: wp_db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: pass
+      MYSQL_ROOT_PASSWORD: 123
+    volumes:
+      - ./mariadb:/var/lib/mysql
+  #  networks:
+  #   - netwp
+
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 8081:80
+    environment:
+      - PMA_ARBITRARY=1
+  #  networks:
+  #    - netwp
+
+  #networks:
+  #   netpw:
+  #    driver: bridge
+  #    ipam:
+  #      config:
+  #        subnet: 192.168.0.0/24
+
+  #volumes:
+  #   wordpress: ./wp
+  #   db: ./mariadb
