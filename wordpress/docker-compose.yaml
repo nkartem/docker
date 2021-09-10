@@ -1,4 +1,4 @@
-version: '3.1'
+version: '3.3'
 
 services:
 
@@ -14,8 +14,8 @@ services:
       WORDPRESS_DB_NAME: wp_db
     volumes:
       - ./wp:/var/www/html
-#    networks:
-#      - netwp
+    networks:
+      - mynet
 
   db:
     image: mariadb
@@ -27,8 +27,8 @@ services:
       MYSQL_ROOT_PASSWORD: 123
     volumes:
       - ./mariadb:/var/lib/mysql
-  #  networks:
-  #   - netwp
+    networks:
+      - mynet
 
   phpmyadmin:
     image: phpmyadmin
@@ -37,15 +37,17 @@ services:
       - 8081:80
     environment:
       - PMA_ARBITRARY=1
-  #  networks:
-  #    - netwp
+    networks:
+      - mynet
 
-  #networks:
-  #   netpw:
-  #    driver: bridge
-  #    ipam:
-  #      config:
-  #        subnet: 192.168.0.0/24
+
+networks:
+
+   mynet:
+     driver: bridge
+     ipam:
+      config:
+        -  subnet: 192.168.10.0/24
 
   #volumes:
   #   wordpress: ./wp
