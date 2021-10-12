@@ -9,7 +9,7 @@ const host = '0.0.0.0';
 // приложение
 const app = express();
 app.get('/', (req, res) => {
-  res.send('RRA SYSTEMS NODE JS');
+  res.send('RRA SYSTEMS NodeJS');
 });
 
 app.listen(port, host);
