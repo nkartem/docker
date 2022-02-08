@@ -1,0 +1,26 @@
+version: "3"
+
+networks:
+   mynetui:
+     driver: bridge
+     ipam:
+      config:
+        -  subnet: 10.10.1.0/24
+
+services:
+
+  kafka-ui:
+    image: 'provectuslabs/kafka-ui:latest'
+    ports:
+     - '8080:8080'
+    environment:
+      - KAFKA_CLUSTERS_0_NAME=kafkadocker
+      - KAFKA_CLUSTERS_0_ZOOKEEPER=192.168.10.161:2181
+      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=192.168.10.161:9092
+#      - KAFKA_CLUSTERS_0_PROPERTIES_SECURITY_PROTOCO=true
+    depends_on:
+      - kafka
+    networks:
+        mynetui:
+          ipv4_address: 10.10.1.12
+    restart: always
