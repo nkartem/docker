@@ -1,0 +1,104 @@
+# # Use root/example as user/password credentials
+# version: '3.1'
+
+# services:    
+#   db:
+#     image: mariadb
+#     container_name: mariadb
+#     restart: always
+#     ports:
+#       - 3306:3306
+#     command: [
+#       '--interactive_timeout=576000',  
+#       '--wait_timeout=31536000'
+#     ] 
+#     environment:
+#       MYSQL_ROOT_PASSWORD: 123456
+#     volumes:
+#       - /home/lion/podman/mariadb:/var/lib/mysql
+#       - /home/lion/podman/mariadb:/run/mysqld
+
+#   phpmyadmin:
+#     image: phpmyadmin
+#     container_name: phpmyadmin
+#     restart: always
+#     ports:
+#       - 8080:80
+#     environment:
+#       - PMA_ARBITRARY=1
+  
+#   asterisk:
+#     image: nkartem/asterisk
+#     container_name: asterisk
+#     restart: always
+#     ports:
+#       - 5022:5022/udp
+#       - 10000-20000:10000-20000/udp
+#     command: systemctl start asterisk
+#     volumes:
+#        - /home/user/podman/asterisk:/etc/asterisk
+#        - /home/UIS:/home/UIS
+
+
+# Use root/example as user/password credentials
+version: '3.1'
+
+services:
+  db:
+    image: mariadb
+    container_name: mariadb
+    restart: always
+    ports:
+      - 3306:3306
+    command: [
+      '--interactive_timeout=576000',
+      '--wait_timeout=31536000'
+    ]
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234567890
+    volumes:
+      # - /home/user/podman/mariadb:/var/lib/mysql
+      # - /home/user/podman/mariadb:/run/mysqld
+      - /opt/podman/mariadb:/var/lib/mysql
+      - /opt/podman/mariadb:/run/mysqld
+    networks:
+       mynet:
+        ipv4_address: 10.10.0.10
+
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: phpmyadmin
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      - PMA_ARBITRARY=1
+    networks:
+       mynet:
+        ipv4_address: 10.10.0.20
+
+
+  asterisk:
+    image: nkartem/asterisk
+    container_name: asterisk
+    restart: always
+    ports:
+      - 5022:5022/udp
+      - 10000-20000:10000-20000/udp
+    command: systemctl start asterisk
+    volumes:
+      #  - /home/lion/podman/asterisk:/etc/asterisk
+      #  - /home/UIS:/home/UIS
+       - /opt/podman/asterisk:/etc/asterisk
+       - /opt/UIS:/home/UIS
+    networks:
+       mynet:
+        ipv4_address: 10.10.0.30
+
+networks:
+
+   mynet:
+     driver: bridge
+     ipam:
+      config:
+        -  subnet: 10.10.0.0/24
