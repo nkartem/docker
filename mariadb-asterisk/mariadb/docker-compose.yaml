@@ -8,10 +8,10 @@ services:
     ports:
       - 3306:3306
     environment:
-      MYSQL_ROOT_PASSWORD: zxcTYU057@#
+      MYSQL_ROOT_PASSWORD: 112233445566
     volumes:
-      - /home/lion/podman/mariadb:/var/lib/mysql
-      - /home/lion/podman/mariadb:/run/mysqld
+      - /home/nameuser/podman/mariadb:/var/lib/mysql
+      - /home/nameuser/podman/mariadb:/run/mysqld
 
   phpmyadmin:
     image: phpmyadmin
