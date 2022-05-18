@@ -13,6 +13,7 @@ services:
       '--wait_timeout=31536000'
     ] 
     environment:
+      MYSQL_DATABASE: DemoDB
       MYSQL_ROOT_PASSWORD: 112233445566
     volumes:
       # - /home/username/podman/mariadb:/var/lib/mysql
