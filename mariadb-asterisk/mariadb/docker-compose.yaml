@@ -4,17 +4,25 @@ version: '3.1'
 services:    
   db:
     image: mariadb
+    container_name: mariadb
     restart: always
     ports:
       - 3306:3306
+    command: [
+      '--interactive_timeout=576000',  
+      '--wait_timeout=31536000'
+    ] 
     environment:
       MYSQL_ROOT_PASSWORD: 112233445566
     volumes:
-      - /home/nameuser/podman/mariadb:/var/lib/mysql
-      - /home/nameuser/podman/mariadb:/run/mysqld
+      # - /home/username/podman/mariadb:/var/lib/mysql
+      # - /home/username/podman/mariadb:/run/mysqld
+      - /opt/podman/mariadb:/var/lib/mysql
+      - /opt/podman/mariadb:/run/mysqld
 
   phpmyadmin:
     image: phpmyadmin
+    container_name: phpmyadmin
     restart: always
     ports:
       - 8080:80
