@@ -39,7 +39,7 @@ RUN cd /opt/ && wget https://repo.anaconda.com/archive/Anaconda2-5.2.0-Linux-x86
 # RUN cd /opt/ && ./Anaconda2-5.2.0-Linux-x86_64.sh
 
 # RUN git clone https://github.com/bukosabino/ta
-# RUN https://pypi.org/project/scipy/1.1.0/
+# RUN https://pypi.org/project/scipy/1.1.0/ 
 
 
 # EXPOSE 8080
