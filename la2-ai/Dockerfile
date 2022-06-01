@@ -1,8 +1,8 @@
 FROM amazonlinux
 #FROM amazonlinux:devel-with-sources
 
-#COPY . /home/user/myapp
-#WORKDIR /home/user/myapp
+COPY . /home/appuser/myapp
+WORKDIR /home/appuser/myapp
 
 # RUN yum install -y amazon-linux-extras
 RUN yum -y update
@@ -42,7 +42,7 @@ RUN cd /opt/ && wget https://repo.anaconda.com/archive/Anaconda2-5.2.0-Linux-x86
 # RUN https://pypi.org/project/scipy/1.1.0/ 
 
 
-# EXPOSE 8080
+EXPOSE 5000/tcp
 #CMD [ "/bin/bash" ]
 
 ## docker run -it ai -c "cd /opt/ && ./Anaconda2-5.2.0-Linux-x86_64.sh"
