@@ -45,4 +45,4 @@ RUN cd /opt/ && wget https://repo.anaconda.com/archive/Anaconda2-5.2.0-Linux-x86
 EXPOSE 5000/tcp
 #CMD [ "/bin/bash" ]
 
-## docker run -it ai -c "cd /opt/ && ./Anaconda2-5.2.0-Linux-x86_64.sh"
+## docker run --cpus=2 -it ai -c "cd /opt/ && ./Anaconda2-5.2.0-Linux-x86_64.sh"
