@@ -1,0 +1,15 @@
+version: '3.1'
+
+services:
+
+  asterisk:
+    image: nkartem/asterisk
+    restart: always
+    ports:
+      - 5060:5060/udp     
+      - 5022:5022/udp
+      - 10000-20000:10000-20000/udp
+    command: systemctl start asterisk
+    volumes:
+       - /home/user/podman/asterisk:/etc/asterisk
+       - /home/folder:/home/folder
