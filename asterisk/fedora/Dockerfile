@@ -19,4 +19,4 @@ EXPOSE 5060/udp 10000-20000/udp 5022/udp
 #CMD ["/bin/bash", "asterisk"]
 
 # docker build -t asterisk .
-# podman run -it -p 5060:5060/udp -p 10000-20000:10000-20000/udp -p 5022:5022/udp  -v /opt/podman/asterisk:/etc/asterisk -v /opt/UIS:/home/UIS asterisk sh -c "asterisk && bash"
+# podman run -it -p 5060:5060/udp -p 10000-20000:10000-20000/udp -p 5022:5022/udp  -v /opt/podman/asterisk:/etc/asterisk -v /home/app:/home/app docker.io/nkartem/asterisk:18.12.1-fedora37
