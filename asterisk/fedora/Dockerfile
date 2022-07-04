@@ -1,7 +1,7 @@
 FROM fedora:37
 ENV TZ=America/New_York
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-RUN yum -y update ; yum  -y install epel-release ; yum -y install nano wget git net-tools openssl-devel vim htop curl lame mc autoconf subversion pkg-config libtool gcc ; yum -y groupinstall "Development Tools" ; mkdir /home/UIS
+RUN yum -y update ; yum  -y install epel-release ; yum -y install nano wget git net-tools openssl-devel vim htop curl lame mc autoconf subversion pkg-config libtool gcc ; yum -y groupinstall "Development Tools" ; mkdir /opt/UIS
 
 ######## libsrtp ####
 RUN cd /usr/src ; git clone https://github.com/cisco/libsrtp.git ; cd libsrtp/ ;  ./configure ; make ; make runtest ;make install
@@ -12,7 +12,7 @@ RUN cd /usr/src ; wget http://downloads.asterisk.org/pub/telephony/asterisk/aste
         --enable app_channelredirect --enable app_chanisavail --enable app_chanspy \
 		--enable format_mp3 --enable format_wav --enable codec_ulaw  ; make ; make install ; make samples ; make basic-pbx ; ldconfig ; make install-logrotate
 #######################
-COPY entrypoint.sh /usr/bin/entrypoint.sh
+#COPY entrypoint.sh /usr/bin/entrypoint.sh
 ENTRYPOINT [ "sh","-c", "asterisk && /bin/bash" ]
 EXPOSE 5060/udp 10000-20000/udp 5022/udp
 #ENTRYPOINT ["sh", "asterisk", "/bin/bash"]
