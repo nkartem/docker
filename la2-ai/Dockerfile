@@ -1,23 +1,23 @@
 FROM amazonlinux
-#FROM amazonlinux:devel-with-sources
 
-COPY . /home/appuser/myapp
-WORKDIR /home/appuser/myapp
+WORKDIR /home/appuser
 
 # RUN yum install -y amazon-linux-extras
 RUN yum -y update
 RUN yum -y groupinstall "Development Tools" 
-RUN yum -y install openssl-devel bzip2-devel libffi-devel wget 
+RUN yum -y install openssl-devel bzip2-devel libffi-devel wget libSM libXrender libXtst cairo xz-devel 
 RUN wget -P /opt/ https://www.python.org/ftp/python/3.6.6/Python-3.6.6.tgz 
 RUN cd /opt/ && tar xvf Python-3.6.6.tgz 
-RUN cd /opt/Python-3.6.6/ && ./configure --enable-optimizations 
-RUN cd /opt/Python-3.6.6/ && make altinstall 
-RUN cd /opt/ && curl -O https://bootstrap.pypa.io/pip/3.6/get-pip.py 
-RUN cd /opt/ && python3.6 get-pip.py 
+RUN cd /opt/Python-3.6.6/ && ./configure --enable-optimizations && make altinstall && cd /opt/ && rm Python-3.6.6.tgz 
+RUN cd /opt/ && curl -O https://bootstrap.pypa.io/pip/3.6/get-pip.py && python3.6 get-pip.py
+
+#TODO: delete
+RUN yum -y install mc 
+
 RUN pip install ujson==1.35 
 RUN pip install numpy==1.15.4 
-RUN pip install pika 
-RUN pip install wget 
+# RUN pip install pika 
+# RUN pip install wget 
 RUN pip install --upgrade ta
 RUN pip install pandas==0.24.2 
 RUN pip install scipy==1.1.0 
@@ -35,14 +35,19 @@ RUN pip install Flask-Login==0.4.1
 RUN pip install scikit-image==0.14.0
 RUN pip install scikit-learn==0.20.1
 RUN pip install xgboost==0.80
-RUN cd /opt/ && wget https://repo.anaconda.com/archive/Anaconda2-5.2.0-Linux-x86_64.sh && chmod +x Anaconda2-5.2.0-Linux-x86_64.sh
-# RUN cd /opt/ && ./Anaconda2-5.2.0-Linux-x86_64.sh
 
-# RUN git clone https://github.com/bukosabino/ta
-# RUN https://pypi.org/project/scipy/1.1.0/ 
+# COPY ai-folder /home/appuser/ai-folder
 
+COPY start.py ./
+COPY CoffeeMug.jpg ./
 
-EXPOSE 5000/tcp
-#CMD [ "/bin/bash" ]
+COPY prepare.py ./
 
-## docker run --cpus=2 -it ai -c "cd /opt/ && ./Anaconda2-5.2.0-Linux-x86_64.sh"
+COPY test.py ./
+
+WORKDIR /home/appuser
+
+RUN /usr/local/bin/python3.6 /home/appuser/prepare.py
+RUN /usr/local/bin/python3.6 /home/appuser/test.py
+
+CMD ["/usr/local/bin/python3.6", "/home/appuser/start.py"]
