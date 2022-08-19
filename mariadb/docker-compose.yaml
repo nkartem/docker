@@ -9,9 +9,13 @@ services:
       - 3306:3306
     environment:
       MYSQL_ROOT_PASSWORD: 123456
-    volumes:
-       - /home/lion/podman/mariadb:/var/lib/mysql
-       - /home/lion/podman/mariadb:/run/mysqld  
+      MARIADB_DATABASE: IntDB
+      MARIADB_DATABASE_1: asterisk
+      MARIADB_USER: asterisk
+      MARIADB_PASSWORD: asterisk
+    # volumes:
+    #    - /home/lion/podman/mariadb:/var/lib/mysql
+    #    - /home/lion/podman/mariadb:/run/mysqld  
 
   phpmyadmin:
     image: phpmyadmin
