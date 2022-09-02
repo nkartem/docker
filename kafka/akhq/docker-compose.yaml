@@ -24,7 +24,24 @@ services:
                 url: "http://schema-registry:8085"
               connect:
                 - name: "connect"
-                  url: "http://connect:8083"
+                  url: "http://connect:8083" 
+      # basic-auth: |        
+      #   micronaut:
+      #     security:
+      #       enabled: true
+      #   akhq.security:
+      #     basic-auth:
+      #       - username: admin
+      #         password: "$2a$<hashed password>"
+      #         passwordHash: BCRYPT
+      #         groups:
+      #         - admin
+      #        - username: reader
+      #          password: "<SHA-256 hashed password>"
+      #          groups:
+      #          - reader
+
+
     ports:
       - 8080:8080
     links:
