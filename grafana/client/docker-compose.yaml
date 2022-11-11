@@ -1,0 +1,91 @@
+version: '3.1'
+
+services:    
+  db:
+    image: mariadb
+    container_name: mariadb
+    restart: always
+    ports:
+      - 3306:3306
+    command: [
+      '--interactive_timeout=576000',  
+      '--wait_timeout=31536000'
+    ] 
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: DB
+    # volumes:
+    #   - /opt/podman/mariadb:/var/lib/mysql
+    #   - /opt/podman/mariadb:/run/mysqld
+
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: phpmyadmin
+    restart: always
+    ports:
+      - 8181:80
+    environment:
+      - PMA_ARBITRARY=1
+  
+  asterisk:
+    image: nkartem/asterisk
+    container_name: asterisk
+    restart: always
+    ports:
+      - 5022:5022/udp
+      - 10000-20000:10000-20000/udp
+    command: systemctl start asterisk
+    # volumes:
+    #    - /opt/podman/asterisk:/etc/asterisk
+
+
+####Monitoring MySQL  
+  mysql-exporter:
+    image: prom/mysqld-exporter
+    container_name: mysql-exporter
+    restart: unless-stopped
+    environment:
+    - DATA_SOURCE_NAME=root:123456(localhost:3306)/
+    ports:
+      - 9104:9104
+    #mem_limit: 128m           # for docker-compose v2 only
+    #mem_reservation: 64m      # for docker-compose v2 only
+#    logging:
+#        driver: "json-file"
+#        options:
+#          max-size: "5m"
+
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: node-exporter
+    restart: unless-stopped
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/rootfs'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+    expose:
+      - 9100
+    ports:
+      - 9100:9100
+    environment:
+      TZ: "Europe/Kiev"
+#####Monitoring process
+  process-exporter:
+    image: ncabatoff/process-exporter
+    container_name: process-exporter
+    restart: unless-stopped
+    volumes:
+      - /proc:/host/proc
+      - ./process-exporter:/config
+    command:
+      - '-procfs=/host/proc'
+      - '-config.path=/config/config.yml'
+    expose:
+      - 9256
+    ports:
+      - 9256:9256
