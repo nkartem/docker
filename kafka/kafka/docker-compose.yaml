@@ -1,5 +1,5 @@
 # Create NetWork mynet "podman\docker network create mynet --driver bridge"
-# Create folders zookeeper_data and kafka_data
+# Create volumes zookeeper_data and kafka_data "podman volume create kafka_data" "podman volume create zookeeper_data"
 version: "3"
 
 volumes:
