@@ -1,5 +1,5 @@
 # Create NetWork mynet "podman\docker network create mynet --driver bridge"
-# Create volumes zookeeper_data and kafka_data "podman volume create kafka_data" "podman volume create zookeeper_data"
+# Create folders zookeeper_data and kafka_data "podman\docker volume create zookeeper_data"
 version: "3"
 
 volumes:
@@ -20,8 +20,8 @@ services:
     hostname: zookeeper
     ports:
       - '2181:2181'
-    # volumes:
-    #   - "zookeeper_data:/bitnami"
+    volumes:
+       - "zookeeper_data:/bitnami"
     environment:
       - ALLOW_ANONYMOUS_LOGIN=yes
     networks:
@@ -35,20 +35,19 @@ services:
     ports:
       - '9092:9092'
       - '9093:9093'
-#    volumes:
-#      - "kafka_data:/bitnami"
+    volumes:
+      - "kafka_data:/bitnami"
     environment:
-#      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
-#      - ALLOW_PLAINTEXT_LISTENER=yes
-#      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CLIENT:PLAINTEXT,EXTERNAL:PLAINTEXT
-#      - KAFKA_CFG_LISTENERS=CLIENT://:9092,EXTERNAL://:9093
-#      - KAFKA_CFG_ADVERTISED_LISTENERS=CLIENT://192.168.10.194:9092,EXTERNAL://192.168.10.194:9093
-#      - KAFKA_INTER_BROKER_LISTENER_NAME=CLIENT
       - KAFKA_BROKER_ID=1
       - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092
       - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
       - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
       - ALLOW_PLAINTEXT_LISTENER=yes
+
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CLIENT:PLAINTEXT,EXTERNAL:PLAINTEXT
+      - KAFKA_CFG_LISTENERS=CLIENT://:9092,EXTERNAL://:9093
+      - KAFKA_CFG_ADVERTISED_LISTENERS=CLIENT://192.168.1.104:9092,EXTERNAL://192.168.1.104:9093 #IP address host
+      - KAFKA_INTER_BROKER_LISTENER_NAME=CLIENT
     depends_on:
       - zookeeper
     networks:
