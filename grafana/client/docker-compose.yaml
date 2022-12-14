@@ -45,7 +45,7 @@ services:
     container_name: mysql-exporter
     restart: unless-stopped
     environment:
-    - DATA_SOURCE_NAME=root:123456(localhost:3306)/
+    - DATA_SOURCE_NAME=root:123456@(ip-mysql:3306)/
     ports:
       - 9104:9104
     #mem_limit: 128m           # for docker-compose v2 only
