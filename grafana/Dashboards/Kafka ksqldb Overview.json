@@ -3638,8 +3638,8 @@
         {
           "current": {
             "selected": false,
-            "text": "grafanacloud-nkartem-prom",
-            "value": "grafanacloud-nkartem-prom"
+            "text": "",
+            "value": ""
           },
           "hide": 0,
           "includeAll": false,
