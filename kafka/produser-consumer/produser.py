@@ -10,7 +10,13 @@ print (type(dt1))
 my_dt1_as_bytes = str.encode(dt1)
 
 
-producer = KafkaProducer(bootstrap_servers=['192.168.1.5:9092'],
+producer = KafkaProducer(bootstrap_servers=['192.168.1.5:9093'],
+                         ###### SECURITY PLAIN #####
+                         security_protocol = 'SASL_PLAINTEXT',
+                         sasl_mechanism = 'PLAIN',
+                         sasl_plain_username = 'alice',
+                         sasl_plain_password = 'alice-secret',
+                         ###########################
                          value_serializer=lambda x:
                          dumps(x).encode('utf-8'))
 for e in range(7):
