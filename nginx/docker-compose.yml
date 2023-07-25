@@ -1,0 +1,17 @@
+version: "3"
+
+services:
+
+    nginx: 
+        image : nginx:latest 
+        ports : 
+            - '80:80'
+            - '443:443'
+        volumes: 
+            - C:\Users\admin\Documents\GitHub\docker\nginx\index.html:/usr/share/nginx/html/index.html
+            - C:\Users\admin\Documents\GitHub\docker\nginx\default.conf:/etc/nginx/conf.d/default.conf
+            - C:\Users\admin\Documents\GitHub\docker\nginx\nginx.conf:/etc/nginx/nginx.conf
+            - C:\Users\admin\Documents\GitHub\docker\nginx\selfsigned.crt:/etc/ssl/selfsigned.crt
+            - C:\Users\admin\Documents\GitHub\docker\nginx\selfsigned.key:/etc/ssl/selfsigned.key
+
+#sudo openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout /home/admin/ssl/selfsigned.key -out /hone/admin/ssl/selfsigned.crt
